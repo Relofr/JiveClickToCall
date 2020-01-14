@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "firstName": "Kyle",
+        "lastName": "Hatch",
+        "phoneNumber": "3852235329",
+        "email": "kyle.hatch@logmein.com",
+        "company": "LogMeIn",
+        "address": "2570 W 600 N, Lindon, UT 84042"
+    },
+    {
+        "id": 2,
+        "firstName": "Eric",
+        "lastName": "Shields",
+        "phoneNumber": "3854400115",
+        "email": "eric.shields@logmein.com",
+        "company": "LogMeIn",
+        "address": "2570 W 600 N, Lindon, UT 84042"
+    }
+]
