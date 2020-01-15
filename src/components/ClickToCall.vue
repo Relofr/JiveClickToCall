@@ -9,8 +9,7 @@
             :rules="phoneNumberRegex"
             v-model="dialString"
           ></v-text-field>
-          <v-btn color="primary" @click="makeCall()"
-            >Call
+          <v-btn fab small class="blue white--text" @click="makeCall()">
             <v-icon>phone</v-icon>
           </v-btn>
         </v-layout>
