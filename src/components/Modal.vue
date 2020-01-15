@@ -9,25 +9,35 @@
       </template>
 
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>
+        <v-card-title class="headline orange white--text" primary-title>
           {{ title }}
         </v-card-title>
 
         <v-card-text>
-          <form>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-row>
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="firstName"
+                  :rules="[v => !!v || 'First name is required']"
+                  label="First Name"
+                  required
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" md="6">
+                <v-text-field
+                  v-model="lastName"
+                  :rules="[v => !!v || 'Last name is required']"
+                  label="Last Name"
+                  required
+                ></v-text-field>
+              </v-col>
+            </v-row>
             <v-text-field
               v-model="phoneNumber"
+              :rules="[v => !!v || 'Phone number is required']"
               label="Phone Number"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="firstName"
-              label="First Name"
-              required
-            ></v-text-field>
-            <v-text-field
-              v-model="lastName"
-              label="Last Name"
               required
             ></v-text-field>
             <v-text-field
@@ -38,24 +48,32 @@
             ></v-text-field>
             <v-text-field
               v-model="company"
+              :rules="[v => !!v || 'Company is required']"
               label="Company"
               required
             ></v-text-field>
             <v-text-field
               v-model="address"
+              :rules="[v => !!v || 'Address is required']"
               label="Address"
               required
             ></v-text-field>
-          </form>
+            <br />
+            <v-layout class="justify-space-between">
+              <v-btn color="error" class="mr-4" @click="dialog = false">
+                cancel
+              </v-btn>
+              <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="validate"
+              >
+                create
+              </v-btn>
+            </v-layout>
+          </v-form>
         </v-card-text>
-        <v-card-actions class="justify-space-between">
-          <v-btn color="error" @click="dialog = false">
-            cancel
-          </v-btn>
-          <v-btn color="primary" @click="createContact">
-            Create
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -67,7 +85,7 @@ export default {
   data() {
     return {
       dialog: false,
-      //   contacts: [],
+      valid: true,
       phoneNumber: "",
       firstName: "",
       lastName: "",
@@ -82,24 +100,26 @@ export default {
   },
 
   methods: {
-    createContact() {
-      this.$store.state.savedContacts.push({
-        phoneNumber: this.phoneNumber,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        company: this.company,
-        address: this.address
-      });
+    validate() {
+      if (this.$refs.form.validate()) {
+        this.$store.state.savedContacts.push({
+          phoneNumber: this.phoneNumber,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          company: this.company,
+          address: this.address
+        });
 
-      localStorage.setItem(
-        "savedContacts",
-        JSON.stringify(this.$store.state.savedContacts)
-      );
-      setTimeout(() => {
-        this.dialog = false;
-        location.reload();
-      }, 100);
+        localStorage.setItem(
+          "savedContacts",
+          JSON.stringify(this.$store.state.savedContacts)
+        );
+        setTimeout(() => {
+          this.dialog = false;
+          location.reload();
+        }, 100);
+      }
     }
   },
   computed: {
