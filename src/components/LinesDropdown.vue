@@ -64,7 +64,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 button {
   margin-left: 15px;
 }

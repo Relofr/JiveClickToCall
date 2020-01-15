@@ -1,40 +1,124 @@
 <template>
   <transition name="slide" mode="in-out">
     <div class="call-pop-container" v-show="showCallPopState">
-      <v-layout text-left>
-        <v-card max-width="344" dark>
-          <v-card-text class="white--text">
-            <div
-              :class="{
-                isRinging: callState === 'Ringing',
-                isConnected: callState === 'Connected',
-                isDisconnected: callState === 'Disconnected'
-              }"
-              class="text-center title font-regular"
-            >
-              {{ callState || "Error" }} ({{
-                direction ? "Outbound" : "Inbound"
-              }})
-            </div>
-            <div class="headline">
-              <div class="d-flex justify-md-space-around" outlined tile>
-                <div><v-icon large color="blue">phone</v-icon></div>
-                <div class="display-1">
-                  {{ hours }}:{{ minutes | zeroPad }}:{{ seconds | zeroPad }}
-                </div>
-              </div>
-            </div>
-            Date/Time: {{ timeOfCall || "Date/Time" }} <br />
-            Name: {{ firstName || "No Contact" }} {{ lastName }}
-            <br />
-            Phone Number:
-            {{ phoneNumber || "No Data" }} <br />
-            Company: {{ company || "No Data" }} <br />
-            Email: {{ email || "No Data" }} <br />
-            Address: {{ address || "No Data" }}
-          </v-card-text>
-        </v-card>
-      </v-layout>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-card-title class="blue darken-1">
+              <span class="subtitle-1 white--text"
+                ><v-chip class="ma-2" color="white" text-color="black">
+                  <v-avatar left>
+                    <v-icon>mdi-account-circle</v-icon>
+                  </v-avatar>
+                  {{ firstName || "No contact" }} {{ lastName }}
+                </v-chip></span
+              >
+
+              <v-spacer></v-spacer>
+              <v-chip
+                v-show="this.callState === 'Connected'"
+                color="blue darken-1 white--text"
+              >
+                <v-avatar left>
+                  <v-icon>timer</v-icon>
+                </v-avatar>
+                <span class="title"
+                  >{{ hours }}:{{ minutes | zeroPad }}:{{
+                    seconds | zeroPad
+                  }}</span
+                >
+              </v-chip>
+
+              <v-chip
+                v-show="this.callState != 'Connected'"
+                color="blue darken-1 white--text"
+              >
+                <v-avatar left>
+                  <v-icon>timer</v-icon>
+                </v-avatar>
+                <span class="title"
+                  >{{ callState || "Error" }} ({{
+                    direction ? "Outbound" : "Inbound"
+                  }})</span
+                >
+              </v-chip>
+              <!-- <v-btn dark icon>
+                <v-icon>mdi-close</v-icon>
+              </v-btn> -->
+            </v-card-title>
+
+            <v-list>
+              <v-list-item text-left>
+                <v-list-item-action>
+                  <v-icon>mdi-calendar</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title>
+                    {{ timeOfCall || "Date/Time" }}</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider inset></v-divider>
+
+              <v-list-item>
+                <v-list-item-action>
+                  <v-icon>mdi-phone</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    phoneNumber || "No Phone Number"
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider inset></v-divider>
+
+              <v-list-item>
+                <v-list-item-action>
+                  <v-icon>business</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    company || "No Company"
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider inset></v-divider>
+
+              <v-list-item>
+                <v-list-item-action>
+                  <v-icon>mdi-email</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    email || "No Email"
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-divider inset></v-divider>
+
+              <v-list-item>
+                <v-list-item-action>
+                  <v-icon>mdi-map-marker</v-icon>
+                </v-list-item-action>
+
+                <v-list-item-content>
+                  <v-list-item-title>{{
+                    address || "No Address"
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </transition>
 </template>
@@ -80,6 +164,13 @@ export default {
     }
   },
   watch: {
+    overlay: {
+      handler() {
+        if (this.callState != "Connected") {
+          this.overlay = true;
+        }
+      }
+    },
     startWatcher: {
       handler() {
         if (this.$store.state.callState == "Connected") {
@@ -187,7 +278,7 @@ export default {
 .call-pop-container {
   width: auto;
   // min-width: 260px;
-  bottom: 0;
+  bottom: -12px;
   left: 0;
   height: auto;
   position: fixed;
@@ -221,4 +312,12 @@ export default {
 .slide-leave-active {
   transform: translate(0, 376px);
 }
+
+.v-list-item__content {
+  text-align: left;
+}
+
+// .v-overlay__scrim {
+//   background-color: white !important;
+// }
 </style>

@@ -20,7 +20,8 @@ const store = new Vuex.Store({
     direction: "",
     callState: "",
     timeOfCall: "",
-    showCallPopState: true
+    showCallPopState: false,
+    savedContacts: []
   },
   getters: {
     LINES: state => {
@@ -72,6 +73,9 @@ const store = new Vuex.Store({
     },
     updateUsers: (state, payload) => {
       state.users = payload;
+    },
+    updateSavedContacts: (state, payload) => {
+      state.savedContacts = payload;
     }
   },
   actions: {

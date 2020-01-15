@@ -101,3 +101,9 @@ export default {
   mounted() {}
 };
 </script>
+
+<style lang="less" scoped>
+button {
+  margin-left: 15px;
+}
+</style>
