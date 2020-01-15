@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     session: [],
     subscription: [],
     users: [],
-    dialString: "3852235329",
+    dialString: "",
     phoneNumber: "",
     firstName: "",
     lastName: "",
