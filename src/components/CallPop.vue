@@ -2,10 +2,19 @@
   <transition name="slide" mode="in-out">
     <div class="call-pop-container" v-show="showCallPopState">
       <v-layout text-left>
-        <v-card class="mx-auto" max-width="344" dark>
+        <v-card max-width="344" dark>
           <v-card-text class="white--text">
-            <div class="text-center title font-regular">
-              Incoming Call
+            <div
+              :class="{
+                isRinging: callState === 'Ringing',
+                isConnected: callState === 'Connected',
+                isDisconnected: callState === 'Disconnected'
+              }"
+              class="text-center title font-regular"
+            >
+              {{ callState || "Error" }} ({{
+                direction ? "Outbound" : "Inbound"
+              }})
             </div>
             <div class="headline">
               <div class="d-flex justify-md-space-around" outlined tile>
@@ -16,7 +25,7 @@
               </div>
             </div>
             Date/Time: {{ timeOfCall || "Date/Time" }} <br />
-            Name: {{ firstName || "No Data" }} {{ lastName || "No Data" }}
+            Name: {{ firstName || "No Contact" }} {{ lastName }}
             <br />
             Phone Number:
             {{ phoneNumber || "No Data" }} <br />
@@ -136,6 +145,17 @@ export default {
 .v-card {
   border-radius: 0px 5px 0px 0px !important;
 }
+
+.isRinging {
+  color: #2196f3;
+}
+.isConnected {
+  color: #4caf50;
+}
+.isDisconnected {
+  color: #ff5252;
+}
+
 .slide-leave-active,
 .slide-enter-active {
   transition: 0.6s;
