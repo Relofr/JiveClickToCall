@@ -71,14 +71,9 @@ export default {
       this.$store.commit("updateUsers", JSON.parse(localStorage.savedContacts));
     },
     handleSelectedUser(user) {
-      this.firstName = user.firstName;
-      this.lastName = user.lastName;
-      this.phoneNumber = user.phoneNumber;
-      this.email = user.email;
-      this.company = user.company;
-      this.address = user.address;
-      this.dialString = user.phoneNumber;
+      this.$store.state.dialString = user.phoneNumber;
       this.makeCall();
+      this.$store.state.dialString = "";
     }
   },
   computed: {
