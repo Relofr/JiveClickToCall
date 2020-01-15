@@ -43,7 +43,62 @@
 export default {
   name: "CallPop",
   data() {
-    return {};
+    return {
+      animateFrame: 0,
+      nowTime: 0,
+      diffTime: 0,
+      startTime: 0,
+      isRunning: false
+    };
+  },
+  methods: {
+    setSubtractStartTime(time) {
+      time = typeof time !== "undefined" ? time : 0;
+      this.startTime = Math.floor(Date.now() - time);
+    },
+    startTimer() {
+      var vm = this;
+      vm.setSubtractStartTime(vm.diffTime);
+
+      (function loop() {
+        vm.nowTime = Math.floor(Date.now());
+        vm.diffTime = vm.nowTime - vm.startTime;
+        vm.animateFrame = requestAnimationFrame(loop);
+      })();
+      vm.isRunning = true;
+    },
+    stopTimer() {
+      this.isRunning = false;
+      cancelAnimationFrame(this.animateFrame);
+    },
+    clearAll() {
+      this.startTime = 0;
+      this.nowTime = 0;
+      this.diffTime = 0;
+      this.stopTimer();
+      this.animateFrame = 0;
+    }
+  },
+  watch: {
+    startWatcher: {
+      handler() {
+        if (this.$store.state.callState == "Connected") {
+          this.startTimer();
+        }
+      },
+      deep: true
+    },
+    endWatcher: {
+      handler() {
+        if (this.$store.state.callState == "Disconnected") {
+          this.stopTimer();
+          setTimeout(() => {
+            this.clearAll();
+          }, 4000);
+        }
+      },
+      deep: true
+    }
   },
   computed: {
     startWatcher: {
