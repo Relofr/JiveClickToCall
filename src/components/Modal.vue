@@ -36,25 +36,18 @@
             </v-row>
             <v-text-field
               v-model="phoneNumber"
-              :rules="[v => !!v || 'Phone number is required']"
+              :rules="phoneNumberRules"
               label="Phone Number"
               required
             ></v-text-field>
-            <v-text-field
-              :rules="emailRules"
-              v-model="email"
-              label="Email"
-              required
-            ></v-text-field>
+            <v-text-field v-model="email" label="Email"></v-text-field>
             <v-text-field
               v-model="company"
-              :rules="[v => !!v || 'Company is required']"
               label="Company"
               required
             ></v-text-field>
             <v-text-field
               v-model="address"
-              :rules="[v => !!v || 'Address is required']"
               label="Address"
               required
             ></v-text-field>
@@ -86,16 +79,16 @@ export default {
     return {
       dialog: false,
       valid: true,
+      phoneNumberRules: [
+        v => !!v || "Phone Number is required",
+        v => /^[0-9]*$/.test(v) || "Phone Number must be valid"
+      ],
       phoneNumber: "",
       firstName: "",
       lastName: "",
       email: "",
       company: "",
-      address: "",
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-      ]
+      address: ""
     };
   },
 
@@ -106,9 +99,9 @@ export default {
           phoneNumber: this.phoneNumber,
           firstName: this.firstName,
           lastName: this.lastName,
-          email: this.email,
-          company: this.company,
-          address: this.address
+          email: this.email || "No Email",
+          company: this.company || "No Company",
+          address: this.address || "No Address"
         });
 
         localStorage.setItem(

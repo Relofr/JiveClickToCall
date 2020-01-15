@@ -277,12 +277,10 @@ export default {
 <style scoped lang="less">
 .call-pop-container {
   width: auto;
-  // min-width: 260px;
   bottom: -12px;
   left: 0;
   height: auto;
   position: fixed;
-  // font-weight: 500;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   z-index: 100;
@@ -316,8 +314,4 @@ export default {
 .v-list-item__content {
   text-align: left;
 }
-
-// .v-overlay__scrim {
-//   background-color: white !important;
-// }
 </style>
