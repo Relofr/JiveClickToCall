@@ -3,119 +3,91 @@
     <div class="call-pop-container" v-show="showCallPopState">
       <v-row>
         <v-col>
-          <v-card>
-            <v-card-title class="blue darken-1">
-              <span class="subtitle-1 white--text"
-                ><v-chip class="ma-2" color="white" text-color="black">
-                  <v-avatar left>
-                    <v-icon>mdi-account-circle</v-icon>
-                  </v-avatar>
-                  {{ firstName || "No contact" }} {{ lastName }}
-                </v-chip></span
+          <v-card elevation="8" max-width="344" class="mx-auto">
+            <v-list-item three-line>
+              <v-list-item-avatar size="60"
+                ><v-icon size="80"
+                  >mdi-account-circle</v-icon
+                ></v-list-item-avatar
               >
-
-              <v-spacer></v-spacer>
-              <v-chip
-                v-show="this.callState === 'Connected'"
-                color="blue darken-1 white--text"
-              >
-                <v-avatar left>
-                  <v-icon v-show="this.callState === 'Connected'">timer</v-icon>
-                </v-avatar>
-                <span class="title"
-                  >{{ hours }}:{{ minutes | zeroPad }}:{{
-                    seconds | zeroPad
-                  }}</span
-                >
-              </v-chip>
-
-              <v-chip
-                v-show="this.callState != 'Connected'"
-                color="blue darken-1 white--text"
-              >
-                <v-avatar left>
-                  <v-icon>timer</v-icon>
-                </v-avatar>
-                <span class="title"
+              <v-list-item-content>
+                <v-list-item-title class="headline"
+                  >{{ firstName || "No contact" }} {{ lastName }}
+                </v-list-item-title>
+                <v-list-item-title
+                  class="font-weight-regular text-uppercase"
+                  :class="{
+                    isRinging: callState === 'Ringing',
+                    isConnected: callState === 'Connected',
+                    isDisconnected: callState === 'Disconnected'
+                  }"
                   >{{ callState || "Error" }} ({{
                     direction ? "Outbound" : "Inbound"
-                  }})</span
-                >
-              </v-chip>
-              <!-- <v-btn dark icon>
-                <v-icon>mdi-close</v-icon>
-              </v-btn> -->
-            </v-card-title>
-
-            <v-list>
+                  }})
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item-title class="display-1 font-weight-light"
+              >{{ hours }}:{{ minutes | zeroPad }}:{{
+                seconds | zeroPad
+              }}</v-list-item-title
+            >
+            <v-card-text>
               <v-list-item text-left>
                 <v-list-item-action>
-                  <v-icon>mdi-calendar</v-icon>
+                  <v-icon color="orange">mdi-calendar</v-icon>
                 </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title>
                     {{ timeOfCall || "Date/Time" }}</v-list-item-title
                   >
                 </v-list-item-content>
               </v-list-item>
-
               <v-divider inset></v-divider>
-
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>mdi-phone</v-icon>
+                  <v-icon color="blue">mdi-phone</v-icon>
                 </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title>{{
                     phoneNumber || "No Phone Number"
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-
               <v-divider inset></v-divider>
-
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>business</v-icon>
+                  <v-icon color="grey darken-3">business</v-icon>
                 </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title>{{
                     company || "No Company"
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-
               <v-divider inset></v-divider>
-
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>mdi-email</v-icon>
+                  <v-icon color="green">mdi-email</v-icon>
                 </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title>{{
                     email || "No Email"
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-
               <v-divider inset></v-divider>
-
               <v-list-item>
                 <v-list-item-action>
-                  <v-icon>mdi-map-marker</v-icon>
+                  <v-icon color="red">mdi-map-marker</v-icon>
                 </v-list-item-action>
-
                 <v-list-item-content>
                   <v-list-item-title>{{
                     address || "No Address"
                   }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-            </v-list>
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -164,13 +136,6 @@ export default {
     }
   },
   watch: {
-    overlay: {
-      handler() {
-        if (this.callState != "Connected") {
-          this.overlay = true;
-        }
-      }
-    },
     startWatcher: {
       handler() {
         if (this.$store.state.callState == "Connected") {
@@ -291,15 +256,21 @@ export default {
 }
 
 .isRinging {
-  color: #2196f3;
+  color: #2196f3 !important;
+  // background-color: #2196f3 !important;
 }
 .isConnected {
-  color: #4caf50;
+  color: #4caf50 !important;
+  // background-color: #4caf50 !important;
 }
 .isDisconnected {
-  color: #ff5252;
+  color: #ff5252 !important;
+  // background-color: #ff5252 !important;
 }
-
+.isError {
+  color: blue !important;
+  // background-color: blue !important;
+}
 .slide-leave-active,
 .slide-enter-active {
   transition: 0.6s;

@@ -20,7 +20,7 @@ const store = new Vuex.Store({
     direction: "",
     callState: "",
     timeOfCall: "",
-    showCallPopState: false,
+    showCallPopState: true,
     savedContacts: []
   },
   getters: {
