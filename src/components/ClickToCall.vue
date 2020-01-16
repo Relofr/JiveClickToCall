@@ -2,17 +2,26 @@
   <v-container>
     <v-layout text-center wrap>
       <v-flex mb-5 xs12>
-        <v-layout justify-center>
-          <v-text-field
-            prepend-icon="phone"
-            label="Phone Number"
-            :rules="phoneNumberRegex"
-            v-model="dialString"
-          ></v-text-field>
-          <v-btn fab small class="blue white--text" @click="makeCall()">
-            <v-icon>phone</v-icon>
-          </v-btn>
-        </v-layout>
+        <v-form ref="form" v-model="valid" lazy-validation>
+          <v-layout justify-center>
+            <v-text-field
+              prepend-icon="phone"
+              label="Phone Number"
+              :rules="phoneNumberRules"
+              required
+              v-model="dialString"
+            ></v-text-field>
+            <v-btn
+              :disabled="!valid"
+              fab
+              small
+              class="blue white--text"
+              @click="makeCall()"
+            >
+              <v-icon>phone</v-icon>
+            </v-btn>
+          </v-layout>
+        </v-form>
         <v-layout>
           <CallPop />
         </v-layout>
@@ -36,14 +45,12 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      valid: true,
       displayNumber: "",
       timeOfCall: "",
-      phoneNumberRegex: [
-        v => !!v || "Phone number is required",
-        v =>
-          /([0-9\s-]{7,})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/.test(
-            v
-          ) || "Phone number must be valid"
+      phoneNumberRules: [
+        v => !!v || "Phone Number is required",
+        v => /^[0-9]*$/.test(v) || "Phone Number must be valid"
       ]
     };
   },
@@ -53,7 +60,9 @@ export default {
   },
   methods: {
     makeCall() {
-      this.$store.dispatch("GET_CALL");
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch("GET_CALL");
+      }
     },
     getTimeStamp() {
       var t = new Date();

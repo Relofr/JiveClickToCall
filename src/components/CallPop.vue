@@ -20,7 +20,7 @@
                 color="blue darken-1 white--text"
               >
                 <v-avatar left>
-                  <v-icon>timer</v-icon>
+                  <v-icon v-show="this.callState === 'Connected'">timer</v-icon>
                 </v-avatar>
                 <span class="title"
                   >{{ hours }}:{{ minutes | zeroPad }}:{{

@@ -1,10 +1,6 @@
 <template>
   <div>
     <v-layout justify-end>
-      <!-- <v-btn @click="showModal" class="justify-end" dark color="green"
-        >Create contact
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn> -->
       <Modal title="Create Contact" buttonTitle="Create Contact" />
     </v-layout>
     <br />

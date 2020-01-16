@@ -2,7 +2,9 @@
   <v-app>
     <v-app-bar app dark>
       <v-toolbar-title>Jive Call Pop Demo</v-toolbar-title>
-      <linesDropdown />
+      <div v-show="this.$store.state.lines.length > 0">
+        <linesDropdown />
+      </div>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -25,8 +27,15 @@
       </v-btn>
     </v-app-bar>
 
-    <v-content>
+    <v-content v-show="isSelectedLine">
       <ClickToCall />
+    </v-content>
+    <v-content v-show="!isSelectedLine && isLoggedIn">
+      <v-card max-width="25%" class="mx-auto ma-10">
+        <v-card-title class="headline justify-center"
+          >Select a Line</v-card-title
+        >
+      </v-card>
     </v-content>
   </v-app>
 </template>
@@ -43,7 +52,8 @@ export default {
   data() {
     return {
       urlWithToken: "",
-      isLoggedIn: localStorage.token != null
+      isLoggedIn: localStorage.token != null,
+      isSelectedLine: localStorage.selectedLine != null
     };
   },
   methods: {
