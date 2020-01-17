@@ -30,13 +30,49 @@
     <v-content v-show="isSelectedLine">
       <ClickToCall />
     </v-content>
-    <v-content v-show="!isSelectedLine && isLoggedIn">
-      <v-card max-width="25%" class="mx-auto ma-10">
-        <v-card-title class="headline justify-center"
-          >Select a Line</v-card-title
-        >
+    <v-container v-show="isLoggedIn">
+      <v-card class="mx-auto">
+        <v-list>
+          <v-subheader class="subtitle-1 font-weight-bold"
+            >LINES RESPONSE -
+            {{
+              `https://api.jive.com/users/v1/users/${username}/lines`
+            }}</v-subheader
+          >
+          <v-list-item>
+            <v-list-item-title
+              ><code class="pa-4">{{
+                this.$store.state.lines
+              }}</code></v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+        <v-list>
+          <v-subheader class="subtitle-1 font-weight-bold"
+            >SESSION RESPONSE - {{ `https://realtime.jive.com/v2/session` }} -H
+            {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-subheader
+          >
+          <v-list-item>
+            <v-list-item-title
+              ><code class="pa-4">{{ currentSession }}</code></v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+        <v-list>
+          <v-subheader class="subtitle-1 font-weight-bold"
+            >SUBSCRIPTION RESPONSE -
+            {{
+              `https://realtime.jive.com/v2/session/${ws}/subscriptions`
+            }}</v-subheader
+          >
+          <v-list-item>
+            <v-list-item-title
+              ><code class="pa-4">{{ currentSub }}</code></v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
       </v-card>
-    </v-content>
+    </v-container>
   </v-app>
 </template>
 
@@ -51,6 +87,10 @@ export default {
   },
   data() {
     return {
+      username: localStorage.username,
+      ws: localStorage.WS,
+      currentSession: [],
+      currentSub: [],
       urlWithToken: "",
       isLoggedIn: localStorage.token != null,
       isSelectedLine: localStorage.selectedLine != null
@@ -71,7 +111,9 @@ export default {
         "lines",
         "SUB",
         "currentPBX",
-        "selectedLine"
+        "selectedLine",
+        "currentSession",
+        "currentSub"
       ];
       for (this.key of keysToRemove) {
         localStorage.removeItem(this.key);
@@ -102,13 +144,16 @@ export default {
       this.parseToken();
       this.$router.push({ path: "/" });
     }
+    if (localStorage.currentSub) {
+      this.currentSession = JSON.parse(localStorage.currentSession);
+      this.currentSub = JSON.parse(localStorage.currentSub);
+    }
   },
   beforeMount() {
     if (localStorage.token) {
       this.$store.dispatch("GET_LINES");
     }
-  },
-  mounted() {}
+  }
 };
 </script>
 

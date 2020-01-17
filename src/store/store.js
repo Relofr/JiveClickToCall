@@ -117,6 +117,7 @@ const store = new Vuex.Store({
       Axios.post(`https://realtime.jive.com/v2/session`, this.headers)
         .then(response => {
           let session = response.data;
+          localStorage.setItem("currentSession", JSON.stringify(response.data));
           localStorage.setItem("WS", response.data.ws);
           localStorage.setItem("SUB", response.data.subscriptions);
           commit("updateSession", session);
@@ -140,7 +141,9 @@ const store = new Vuex.Store({
       ]);
       Axios.post(localStorage.SUB, subBody, this.headers)
         .then(response => {
-          commit("updateSubscription");
+          let sub = response.data;
+          localStorage.setItem("currentSub", JSON.stringify(response.data));
+          commit("updateSubscription", sub);
           console.log("Subscription created...", response.data);
         })
         .catch(error => {
