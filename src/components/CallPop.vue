@@ -274,10 +274,10 @@ export default {
   transition: 0.6s;
 }
 .slide-enter {
-  transform: translate(0, 376px);
+  transform: translate(0, 432px);
 }
 .slide-leave-active {
-  transform: translate(0, 376px);
+  transform: translate(0, 432px);
 }
 
 .v-list-item__content {

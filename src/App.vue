@@ -59,7 +59,7 @@ export default {
   methods: {
     login() {
       window.location.href =
-        "https://auth.jive.com/oauth2/v2/grant?response_type=token&client_id=0238a181-ae13-4065-b74d-f37bb825e8ec&redirect_uri=http://localhost:8080&scope=users.v1.lines.read calls.v2.initiate cr.v1.read recording.v1.read";
+        "https://auth.jive.com/oauth2/v2/grant?response_type=token&client_id=0238a181-ae13-4065-b74d-f37bb825e8ec&redirect_uri=http://localhost:8080&scope=users.v1.lines.read calls.v2.initiate";
     },
     logout() {
       const keysToRemove = [
