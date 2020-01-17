@@ -37,7 +37,7 @@
       v-show="isLoggedIn && isSelectedLine"
     >
       <v-expansion-panel>
-        <v-expansion-panel-header
+        <v-expansion-panel-header class="font-weight-medium"
           >LINES RESPONSE -
           {{
             `https://api.jive.com/users/v1/users/${username}/lines`
@@ -50,7 +50,7 @@
       </v-expansion-panel>
 
       <v-expansion-panel>
-        <v-expansion-panel-header
+        <v-expansion-panel-header class="font-weight-medium"
           >SESSION RESPONSE - {{ `https://realtime.jive.com/v2/session` }} -H
           {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-expansion-panel-header
         >
@@ -61,16 +61,17 @@
       </v-expansion-panel>
 
       <v-expansion-panel>
-        <v-expansion-panel-header
+        <v-expansion-panel-header class="font-weight-medium"
           >SUBSCRIPTION RESPONSE -
-          {{
-            `https://realtime.jive.com/v2/session/${ws}/subscriptions`
-          }}</v-expansion-panel-header
+          {{ `https://realtime.jive.com/v2/session/${ws}/subscriptions` }} -H
+          {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-expansion-panel-header
         >
-        <v-expansion-panel-content>
-          REQUEST BODY SCHEMA: application/json <br />
+        <v-expansion-panel-content class="font-weight-medium"
+          ><br />
+          -H 'Content-Type: application/json' <br />
           <code class="pa-4">{{ currentSubBody }}</code> <br />
           <br />
+          RESPONSE: <br />
           <code class="pa-4">{{ currentSub }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
