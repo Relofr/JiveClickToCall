@@ -30,8 +30,12 @@
     <v-content v-show="isSelectedLine">
       <ClickToCall />
     </v-content>
-
-    <v-expansion-panels multiple accordion focusable>
+    <v-expansion-panels
+      multiple
+      accordion
+      focusable
+      v-show="isLoggedIn && isSelectedLine"
+    >
       <v-expansion-panel>
         <v-expansion-panel-header
           >LINES RESPONSE -
