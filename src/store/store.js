@@ -143,6 +143,7 @@ const store = new Vuex.Store({
         .then(response => {
           let sub = response.data;
           localStorage.setItem("currentSub", JSON.stringify(response.data));
+          localStorage.setItem("currentSubBody", subBody);
           commit("updateSubscription", sub);
           console.log("Subscription created...", response.data);
         })

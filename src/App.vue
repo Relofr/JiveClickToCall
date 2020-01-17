@@ -30,49 +30,47 @@
     <v-content v-show="isSelectedLine">
       <ClickToCall />
     </v-content>
-    <v-container v-show="isLoggedIn">
-      <v-card class="mx-auto">
-        <v-list>
-          <v-subheader class="subtitle-1 font-weight-bold"
-            >LINES RESPONSE -
-            {{
-              `https://api.jive.com/users/v1/users/${username}/lines`
-            }}</v-subheader
-          >
-          <v-list-item>
-            <v-list-item-title
-              ><code class="pa-4">{{
-                this.$store.state.lines
-              }}</code></v-list-item-title
-            >
-          </v-list-item>
-        </v-list>
-        <v-list>
-          <v-subheader class="subtitle-1 font-weight-bold"
-            >SESSION RESPONSE - {{ `https://realtime.jive.com/v2/session` }} -H
-            {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-subheader
-          >
-          <v-list-item>
-            <v-list-item-title
-              ><code class="pa-4">{{ currentSession }}</code></v-list-item-title
-            >
-          </v-list-item>
-        </v-list>
-        <v-list>
-          <v-subheader class="subtitle-1 font-weight-bold"
-            >SUBSCRIPTION RESPONSE -
-            {{
-              `https://realtime.jive.com/v2/session/${ws}/subscriptions`
-            }}</v-subheader
-          >
-          <v-list-item>
-            <v-list-item-title
-              ><code class="pa-4">{{ currentSub }}</code></v-list-item-title
-            >
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-container>
+
+    <v-expansion-panels multiple accordion focusable>
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          >LINES RESPONSE -
+          {{
+            `https://api.jive.com/users/v1/users/${username}/lines`
+          }}</v-expansion-panel-header
+        >
+        <v-expansion-panel-content>
+          <br />
+          <code class="pa-4">{{ this.$store.state.lines }}</code>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          >SESSION RESPONSE - {{ `https://realtime.jive.com/v2/session` }} -H
+          {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-expansion-panel-header
+        >
+        <v-expansion-panel-content
+          ><br />
+          <code class="pa-4">{{ currentSession }}</code>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          >SUBSCRIPTION RESPONSE -
+          {{
+            `https://realtime.jive.com/v2/session/${ws}/subscriptions`
+          }}</v-expansion-panel-header
+        >
+        <v-expansion-panel-content>
+          REQUEST BODY SCHEMA: application/json <br />
+          <code class="pa-4">{{ currentSubBody }}</code> <br />
+          <br />
+          <code class="pa-4">{{ currentSub }}</code>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-app>
 </template>
 
@@ -91,6 +89,7 @@ export default {
       ws: localStorage.WS,
       currentSession: [],
       currentSub: [],
+      currentSubBody: [],
       urlWithToken: "",
       isLoggedIn: localStorage.token != null,
       isSelectedLine: localStorage.selectedLine != null
@@ -147,6 +146,7 @@ export default {
     if (localStorage.currentSub) {
       this.currentSession = JSON.parse(localStorage.currentSession);
       this.currentSub = JSON.parse(localStorage.currentSub);
+      this.currentSubBody = JSON.parse(localStorage.currentSubBody);
     }
   },
   beforeMount() {
