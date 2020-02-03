@@ -263,9 +263,11 @@ export default {
         };
         this.$socketClient.onClose = msg => {
           console.log(msg);
+          this.displayConsoleLog.push(msg.type);
         };
         this.$socketClient.onError = msg => {
           console.log(msg);
+          this.displayConsoleLog.push(msg.type);
         };
       }
     }, 1000);
