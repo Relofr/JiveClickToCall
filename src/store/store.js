@@ -9,7 +9,6 @@ const store = new Vuex.Store({
     lines: [],
     session: [],
     subscription: [],
-    users: [],
     dialString: "",
     phoneNumber: "",
     firstName: "",
@@ -80,9 +79,9 @@ const store = new Vuex.Store({
   },
   actions: {
     GET_LINES({ commit }) {
-      const username = localStorage.username;
+      const principal = localStorage.principal;
       Axios.get(
-        `https://api.jive.com/users/v1/users/${username}/lines`,
+        `https://api.jive.com/users/v1/users/${principal}/lines`,
         this.lineHeaders
       )
         .then(response => {

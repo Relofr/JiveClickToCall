@@ -51,17 +51,17 @@
               label="Address"
               required
             ></v-text-field>
+            <v-checkbox
+              color="orange"
+              v-model="isFavorite"
+              :label="`Favorite`"
+            ></v-checkbox>
             <br />
             <v-layout class="justify-space-between">
-              <v-btn color="error" class="mr-4" @click="dialog = false">
+              <v-btn color="error" @click="dialog = false">
                 cancel
               </v-btn>
-              <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="validate"
-              >
+              <v-btn :disabled="!valid" color="success" @click="validate">
                 create
               </v-btn>
             </v-layout>
@@ -79,6 +79,7 @@ export default {
     return {
       dialog: false,
       valid: true,
+      isFavorite: false,
       phoneNumberRules: [
         v => !!v || "Phone Number is required",
         v => /^[0-9]*$/.test(v) || "Phone Number must be valid"
@@ -101,17 +102,22 @@ export default {
           lastName: this.lastName,
           email: this.email || "No Email",
           company: this.company || "No Company",
-          address: this.address || "No Address"
+          address: this.address || "No Address",
+          isFavorite: this.isFavorite
         });
+        this.phoneNumber = "";
+        this.firstName = "";
+        this.lastName = "";
+        this.email = "";
+        this.company = "";
+        this.address = "";
+        this.dialog = false;
+        this.isFavorite = false;
 
         localStorage.setItem(
           "savedContacts",
           JSON.stringify(this.$store.state.savedContacts)
         );
-        setTimeout(() => {
-          this.dialog = false;
-          location.reload();
-        }, 100);
       }
     }
   },

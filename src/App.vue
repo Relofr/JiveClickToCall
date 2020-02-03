@@ -40,7 +40,7 @@
         <v-expansion-panel-header class="font-weight-medium"
           >LINES RESPONSE -
           {{
-            `https://api.jive.com/users/v1/users/${username}/lines`
+            `https://api.jive.com/users/v1/users/${principal}/lines`
           }}</v-expansion-panel-header
         >
         <v-expansion-panel-content>
@@ -90,7 +90,7 @@ export default {
   },
   data() {
     return {
-      username: localStorage.username,
+      principal: localStorage.principal,
       ws: localStorage.WS,
       currentSession: [],
       currentSub: [],
@@ -103,12 +103,12 @@ export default {
   methods: {
     login() {
       window.location.href =
-        "https://auth.jive.com/oauth2/v2/grant?response_type=token&client_id=0238a181-ae13-4065-b74d-f37bb825e8ec&redirect_uri=http://localhost:8080&scope=users.v1.lines.read calls.v2.initiate";
+        "https://authentication.logmeininc.com/oauth/authorize?response_type=token&client_id=e7144292-7f91-4e06-89fb-b11b9deff831&redirect_uri=http://localhost:8080&scope=users.v1.lines.read calls.v2.initiate";
     },
     logout() {
       const keysToRemove = [
         "token",
-        "username",
+        "principal",
         "lineID",
         "orgID",
         "WS",
@@ -117,7 +117,8 @@ export default {
         "currentPBX",
         "selectedLine",
         "currentSession",
-        "currentSub"
+        "currentSub",
+        "currentSubBody"
       ];
       for (this.key of keysToRemove) {
         localStorage.removeItem(this.key);
@@ -126,16 +127,20 @@ export default {
     },
     parseToken() {
       var token = "";
-      var username = "";
-      var removeMe = "&type";
+      var principal = "";
+      var removeMeFromToken = "&token_type";
+      var removeMeFromPrincipal = "&loa";
+      var replaceMe = "%40";
       var parameter = this.urlWithToken;
       var stringArray = parameter.split("=");
 
       token = stringArray[1];
-      token = token.replace(removeMe, "");
-      username = stringArray[4];
+      token = token.replace(removeMeFromToken, "");
+      principal = stringArray[5];
+      principal = principal.replace(removeMeFromPrincipal, "");
+      principal = principal.replace(replaceMe, "@");
       localStorage.setItem("token", token);
-      localStorage.setItem("username", username);
+      localStorage.setItem("principal", principal);
       setTimeout(() => {
         window.location.reload();
       }, 200);

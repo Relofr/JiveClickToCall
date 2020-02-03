@@ -16,6 +16,7 @@
             <th class="text-left">Email</th>
             <th class="text-left">Company</th>
             <th class="text-left">Address</th>
+            <th class="text-left">Favorite</th>
             <th></th>
           </tr>
         </thead>
@@ -28,7 +29,13 @@
             <td>{{ user.company }}</td>
             <td>{{ user.address }}</td>
             <td>
-              <v-icon @click="removeContact(index)" class="red--text"
+              <v-icon v-if="!user.isFavorite" color="orange"
+                >mdi-star-outline</v-icon
+              >
+              <v-icon v-if="user.isFavorite" color="orange">mdi-star</v-icon>
+            </td>
+            <td>
+              <v-icon color="red" @click="removeContact(index)"
                 >mdi-delete</v-icon
               >
             </td>
@@ -36,6 +43,7 @@
         </tbody>
       </template>
     </v-simple-table>
+    <v-divider></v-divider>
   </div>
 </template>
 
@@ -58,7 +66,6 @@ export default {
           break;
         }
       }
-      location.reload();
     },
     makeCall() {
       this.$store.dispatch("GET_CALL");
@@ -75,12 +82,14 @@ export default {
   computed: {
     users: {
       get() {
-        return this.$store.state.users;
+        return this.$store.state.savedContacts;
       }
     }
   },
   mounted() {
-    this.getContacts();
+    if (localStorage.savedContacts) {
+      this.getContacts();
+    }
   }
 };
 </script>

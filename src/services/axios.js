@@ -6,7 +6,7 @@ export default axios.create({
     Authorization: "Bearer " + localStorage.token
   },
   linesHeaders: {
-    Authorization: "Bearers " + localStorage.token
+    Authorization: "Bearer " + localStorage.token
   },
   subBody: [
     {

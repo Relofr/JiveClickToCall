@@ -28,7 +28,25 @@
         <v-layout>
           <v-flex lg text-left>
             <CRM />
+            <br />
           </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-btn
+            class="mr-2"
+            @click="displayLog = !displayLog"
+            color="green white--text"
+          >
+            {{ displayLog ? "Hide Websocket Logs" : "Show Websocket Logs" }}
+          </v-btn>
+          <v-btn @click="clearLog()" color="error">
+            <v-icon left>mdi-delete</v-icon> clear logs
+          </v-btn>
+          <v-spacer></v-spacer>
+
+          <code class="pa-4 text-left" v-show="displayLog">{{
+            displayConsoleLog
+          }}</code>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -45,6 +63,8 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      displayConsoleLog: [],
+      displayLog: true,
       valid: true,
       displayNumber: "",
       timeOfCall: "",
@@ -59,6 +79,9 @@ export default {
     CRM
   },
   methods: {
+    clearLog() {
+      this.displayConsoleLog = [];
+    },
     makeCall() {
       if (this.$refs.form.validate()) {
         this.$store.dispatch("GET_CALL");
@@ -167,10 +190,10 @@ export default {
         };
         this.$socketClient.onMessage = msg => {
           console.log(JSON.parse(msg.data));
+          this.displayConsoleLog.push(JSON.parse(msg.data));
           var msgToJSON = JSON.parse(msg.data);
           switch (msgToJSON.type) {
             case "announce":
-              console.log("Display: ", msgToJSON.data.display);
               var getPhoneNumber = msgToJSON.data.display;
 
               var test = msgToJSON.data.display;
@@ -212,7 +235,6 @@ export default {
                   break;
 
                 default:
-                  console.log("Error");
                   break;
               }
               break;
@@ -236,21 +258,17 @@ export default {
               break;
 
             default:
-              console.log("Error");
               break;
           }
         };
         this.$socketClient.onClose = msg => {
-          this.$store.commit("updateConnectionStatus", false);
           console.log(msg);
         };
         this.$socketClient.onError = msg => {
-          this.$store.commit("updateConnectionStatus", false);
           console.log(msg);
         };
       }
     }, 1000);
-    // this.getContacts();
   }
 };
 </script>

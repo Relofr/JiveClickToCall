@@ -255,19 +255,15 @@ export default {
 
 .isRinging {
   color: #2196f3 !important;
-  // background-color: #2196f3 !important;
 }
 .isConnected {
   color: #4caf50 !important;
-  // background-color: #4caf50 !important;
 }
 .isDisconnected {
   color: #ff5252 !important;
-  // background-color: #ff5252 !important;
 }
 .isError {
   color: blue !important;
-  // background-color: blue !important;
 }
 .slide-leave-active,
 .slide-enter-active {

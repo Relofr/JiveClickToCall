@@ -2,8 +2,15 @@
   <div class="text-center">
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on">
-          Line: {{ selectedLine || "No Line" }}
+        <v-btn
+          :class="{
+            blue: selectedLine,
+            red: !selectedLine
+          }"
+          dark
+          v-on="on"
+        >
+          {{ selectedLine ? "Ext: " + selectedLine : "Select a line" }}
         </v-btn>
       </template>
       <v-list>
