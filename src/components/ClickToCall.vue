@@ -39,12 +39,12 @@
           >
             {{ displayLog ? "Hide Websocket Logs" : "Show Websocket Logs" }}
           </v-btn>
-          <v-btn @click="clearLog()" color="error">
+          <v-btn class="mr-2" @click="clearLog()" color="error">
             <v-icon left>mdi-delete</v-icon> clear logs
           </v-btn>
           <v-spacer></v-spacer>
 
-          <code class="pa-4 text-left" v-show="displayLog">{{
+          <code class="pa-4 text-left ws-text" v-show="displayLog">{{
             displayConsoleLog
           }}</code>
         </v-layout>
@@ -273,4 +273,25 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped></style>
+<style lang="less" scoped>
+.ws-text {
+  overflow-y: scroll;
+  max-height: 500px;
+  width: 100%;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #616161;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #616161;
+  border-radius: 8px;
+}
+</style>
