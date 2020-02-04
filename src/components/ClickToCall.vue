@@ -36,9 +36,12 @@
             :disabled="this.displayWSlogs.length == 0"
             class="mr-2"
             @click="displayLog = !displayLog"
-            color="green white--text"
+            color="blue white--text"
           >
-            {{ displayLog ? "Hide Websocket Logs" : "Show Websocket Logs" }}
+            <v-icon left>{{
+              displayLog ? "mdi-eye-outline" : "mdi-eye-off"
+            }}</v-icon>
+            WebSocket Logs
           </v-btn>
           <v-btn
             v-show="displayLog && this.displayWSlogs.length > 0"
@@ -46,7 +49,7 @@
             @click="clearLog()"
             color="error"
           >
-            <v-icon left>mdi-delete</v-icon> clear logs
+            <v-icon left>mdi-trash-can</v-icon> clear logs
           </v-btn>
           <v-spacer></v-spacer>
 

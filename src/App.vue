@@ -39,7 +39,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header class="font-weight-medium"
           >LINES RESPONSE -
-          {{ `https://api.jive.com/users/v1/lines` }}</v-expansion-panel-header
+          https://api.jive.com/users/v1/lines</v-expansion-panel-header
         >
         <v-expansion-panel-content>
           <br />
@@ -49,8 +49,8 @@
 
       <v-expansion-panel>
         <v-expansion-panel-header class="font-weight-medium"
-          >SESSION RESPONSE - {{ `https://realtime.jive.com/v2/session` }} -H
-          {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-expansion-panel-header
+          >SESSION RESPONSE - https://realtime.jive.com/v2/session -H
+          Authorization: Bearer {ACCESS_TOKEN}</v-expansion-panel-header
         >
         <v-expansion-panel-content
           ><br />
@@ -62,7 +62,7 @@
         <v-expansion-panel-header class="font-weight-medium"
           >SUBSCRIPTION RESPONSE -
           {{ `https://realtime.jive.com/v2/session/${ws}/subscriptions` }} -H
-          {{ `Authorization: Bearer {ACCESS_TOKEN}` }}</v-expansion-panel-header
+          Authorization: Bearer {ACCESS_TOKEN}</v-expansion-panel-header
         >
         <v-expansion-panel-content class="font-weight-medium"
           ><br />
