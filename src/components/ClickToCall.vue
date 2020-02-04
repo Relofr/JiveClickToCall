@@ -33,20 +33,28 @@
         </v-layout>
         <v-layout>
           <v-btn
+            :disabled="this.displayWSlogs.length == 0"
             class="mr-2"
             @click="displayLog = !displayLog"
             color="green white--text"
           >
             {{ displayLog ? "Hide Websocket Logs" : "Show Websocket Logs" }}
           </v-btn>
-          <v-btn class="mr-2" @click="clearLog()" color="error">
+          <v-btn
+            v-show="displayLog && this.displayWSlogs.length > 0"
+            class="mr-2"
+            @click="clearLog()"
+            color="error"
+          >
             <v-icon left>mdi-delete</v-icon> clear logs
           </v-btn>
           <v-spacer></v-spacer>
 
-          <code class="pa-4 text-left ws-text" v-show="displayLog">{{
-            displayConsoleLog
-          }}</code>
+          <code
+            class="pa-4 text-left ws-text"
+            v-show="displayLog && this.displayWSlogs.length > 0"
+            >{{ displayWSlogs }}</code
+          >
         </v-layout>
       </v-flex>
     </v-layout>
@@ -63,7 +71,7 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
-      displayConsoleLog: [],
+      displayWSlogs: [],
       displayLog: true,
       valid: true,
       displayNumber: "",
@@ -80,7 +88,7 @@ export default {
   },
   methods: {
     clearLog() {
-      this.displayConsoleLog = [];
+      this.displayWSlogs = [];
     },
     makeCall() {
       if (this.$refs.form.validate()) {
@@ -190,7 +198,7 @@ export default {
         };
         this.$socketClient.onMessage = msg => {
           console.log(JSON.parse(msg.data));
-          this.displayConsoleLog.push(JSON.parse(msg.data));
+          this.displayWSlogs.push(JSON.parse(msg.data));
           var msgToJSON = JSON.parse(msg.data);
           switch (msgToJSON.type) {
             case "announce":
@@ -263,11 +271,11 @@ export default {
         };
         this.$socketClient.onClose = msg => {
           console.log(msg);
-          this.displayConsoleLog.push(msg.type);
+          this.displayWSlogs.push(msg.type);
         };
         this.$socketClient.onError = msg => {
           console.log(msg);
-          this.displayConsoleLog.push(msg.type);
+          this.displayWSlogs.push(msg.type);
         };
       }
     }, 1000);

@@ -79,11 +79,7 @@ const store = new Vuex.Store({
   },
   actions: {
     GET_LINES({ commit }) {
-      const principal = localStorage.principal;
-      Axios.get(
-        `https://api.jive.com/users/v1/users/${principal}/lines`,
-        this.lineHeaders
-      )
+      Axios.get("https://api.jive.com/users/v1/lines", this.lineHeaders)
         .then(response => {
           let lines = response.data.items;
           localStorage.setItem(
@@ -94,7 +90,7 @@ const store = new Vuex.Store({
           console.log("Fetched lines...", response.data);
         })
         .catch(error => {
-          console.log(error);
+          console.log("Lines error: ", error);
         });
     },
     GET_CALL() {
