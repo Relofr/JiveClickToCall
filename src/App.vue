@@ -39,9 +39,7 @@
       <v-expansion-panel>
         <v-expansion-panel-header class="font-weight-medium"
           >LINES RESPONSE -
-          {{
-            `https://api.jive.com/users/v1/users/${principal}/lines`
-          }}</v-expansion-panel-header
+          {{ `https://api.jive.com/users/v1/lines` }}</v-expansion-panel-header
         >
         <v-expansion-panel-content>
           <br />
@@ -90,7 +88,6 @@ export default {
   },
   data() {
     return {
-      principal: localStorage.principal,
       ws: localStorage.WS,
       currentSession: [],
       currentSub: [],
@@ -108,7 +105,6 @@ export default {
     logout() {
       const keysToRemove = [
         "token",
-        "principal",
         "lineID",
         "orgID",
         "WS",
@@ -127,20 +123,13 @@ export default {
     },
     parseToken() {
       var token = "";
-      var principal = "";
       var removeMeFromToken = "&token_type";
-      var removeMeFromPrincipal = "&loa";
-      var replaceMe = "%40";
       var parameter = this.urlWithToken;
       var stringArray = parameter.split("=");
 
       token = stringArray[1];
       token = token.replace(removeMeFromToken, "");
-      principal = stringArray[5];
-      principal = principal.replace(removeMeFromPrincipal, "");
-      principal = principal.replace(replaceMe, "@");
       localStorage.setItem("token", token);
-      localStorage.setItem("principal", principal);
       setTimeout(() => {
         window.location.reload();
       }, 200);
