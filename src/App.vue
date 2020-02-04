@@ -41,8 +41,7 @@
           >LINES RESPONSE -
           https://api.jive.com/users/v1/lines</v-expansion-panel-header
         >
-        <v-expansion-panel-content>
-          <br />
+        <v-expansion-panel-content class="mt-5">
           <code class="pa-4">{{ this.$store.state.lines }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -52,8 +51,7 @@
           >SESSION RESPONSE - https://realtime.jive.com/v2/session -H
           Authorization: Bearer {ACCESS_TOKEN}</v-expansion-panel-header
         >
-        <v-expansion-panel-content
-          ><br />
+        <v-expansion-panel-content class="mt-5">
           <code class="pa-4">{{ currentSession }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -64,8 +62,7 @@
           {{ `https://realtime.jive.com/v2/session/${ws}/subscriptions` }} -H
           Authorization: Bearer {ACCESS_TOKEN}</v-expansion-panel-header
         >
-        <v-expansion-panel-content class="font-weight-medium"
-          ><br />
+        <v-expansion-panel-content class="font-weight-medium mt-5">
           -H 'Content-Type: application/json' <br />
           <code class="pa-4">{{ currentSubBody }}</code> <br />
           <br />

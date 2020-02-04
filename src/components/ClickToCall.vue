@@ -28,7 +28,6 @@
         <v-layout>
           <v-flex lg text-left>
             <CRM />
-            <br />
           </v-flex>
         </v-layout>
         <v-layout>
@@ -52,7 +51,6 @@
             <v-icon left>mdi-trash-can</v-icon> clear logs
           </v-btn>
           <v-spacer></v-spacer>
-
           <code
             class="pa-4 text-left ws-text"
             v-show="displayLog && this.displayWSlogs.length > 0"
@@ -74,6 +72,7 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      wsStatus: false,
       displayWSlogs: [],
       displayLog: true,
       valid: true,
@@ -198,6 +197,7 @@ export default {
       if (localStorage.WS) {
         this.$socketClient.onOpen = () => {
           console.log("Websocket connected...");
+          this.wsStatus = true;
         };
         this.$socketClient.onMessage = msg => {
           console.log(JSON.parse(msg.data));
@@ -274,14 +274,16 @@ export default {
         };
         this.$socketClient.onClose = msg => {
           console.log(msg);
+          this.wsStatus = false;
           this.displayWSlogs.push(msg.type);
         };
         this.$socketClient.onError = msg => {
           console.log(msg);
+          this.wsStatus = false;
           this.displayWSlogs.push(msg.type);
         };
       }
-    }, 1000);
+    }, 0);
   }
 };
 </script>

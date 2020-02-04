@@ -1,12 +1,9 @@
 <template>
   <div>
-    <v-layout justify-end>
+    <v-layout class="mb-5" justify-end>
       <Modal title="Create Contact" buttonTitle="Create Contact" />
     </v-layout>
-    <br />
-    <v-divider></v-divider>
-    <br />
-    <v-simple-table>
+    <v-simple-table id="crm-table">
       <template v-slot:default>
         <thead>
           <tr>
@@ -43,7 +40,6 @@
         </tbody>
       </template>
     </v-simple-table>
-    <v-divider></v-divider>
   </div>
 </template>
 
@@ -93,3 +89,9 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+#crm-table {
+  margin-bottom: 15px;
+}
+</style>

@@ -56,8 +56,7 @@
               v-model="isFavorite"
               :label="`Favorite`"
             ></v-checkbox>
-            <br />
-            <v-layout class="justify-space-between">
+            <v-layout class="justify-space-between mt-5">
               <v-btn color="error" @click="dialog = false">
                 cancel
               </v-btn>
