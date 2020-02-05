@@ -12,7 +12,6 @@ if (localStorage.SUB) {
     reconnectInterval: 5000
   });
 }
-
 Vue.config.productionTip = false;
 
 new Vue({

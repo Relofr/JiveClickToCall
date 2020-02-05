@@ -31,31 +31,67 @@
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-btn
-            :disabled="this.displayWSlogs.length == 0"
-            class="mr-2"
-            @click="displayLog = !displayLog"
-            color="blue white--text"
-          >
-            <v-icon left>{{
-              displayLog ? "mdi-eye-outline" : "mdi-eye-off"
-            }}</v-icon>
-            WebSocket Logs
-          </v-btn>
-          <v-btn
-            v-show="displayLog && this.displayWSlogs.length > 0"
-            class="mr-2"
-            @click="clearLog()"
-            color="error"
-          >
-            <v-icon left>mdi-trash-can</v-icon> clear logs
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                class="mx-2"
+                v-on="on"
+                depressed
+                fab
+                small
+                @click="displayLog = !displayLog"
+                color="blue white--text"
+              >
+                <v-icon class="white--text">{{
+                  displayLog ? "mdi-eye-outline" : "mdi-eye-off"
+                }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{
+              displayLog ? "Hide WebSocket logs" : "Show WebSocket Logs"
+            }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                class="mx-2"
+                v-on="on"
+                depressed
+                fab
+                small
+                :class="{ green: wsStatus, red: !wsStatus }"
+              >
+                <v-icon class="white--text">{{
+                  wsStatus ? "mdi-power-plug" : "mdi-power-plug-off"
+                }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{
+              wsStatus ? "WebSocket Connected" : "WebSocket Disconnected"
+            }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                :disabled="displayWSlogs.length == 0"
+                class="mx-2"
+                v-on="on"
+                depressed
+                fab
+                small
+                color="error"
+                @click="clearLog()"
+              >
+                <v-icon class="white--text">mdi-trash-can</v-icon>
+              </v-btn>
+            </template>
+            <span>Clear Logs</span>
+          </v-tooltip>
+
           <v-spacer></v-spacer>
-          <code
-            class="pa-4 text-left ws-text"
-            v-show="displayLog && this.displayWSlogs.length > 0"
-            >{{ displayWSlogs }}</code
-          >
+          <code class="pa-4 text-left ws-text" v-show="displayLog">{{
+            displayWSlogs
+          }}</code>
         </v-layout>
       </v-flex>
     </v-layout>
