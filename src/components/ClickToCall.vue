@@ -15,6 +15,7 @@
               :disabled="!valid"
               fab
               small
+              depressed
               class="blue white--text"
               @click="makeCall()"
             >
@@ -31,7 +32,7 @@
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-tooltip bottom>
+          <v-tooltip bottom color="#424242">
             <template v-slot:activator="{ on }">
               <v-btn
                 class="mx-2"
@@ -52,7 +53,7 @@
             }}</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom color="#424242">
             <template v-slot:activator="{ on }">
               <v-btn
                 class="mx-2"
@@ -60,7 +61,7 @@
                 depressed
                 fab
                 small
-                :class="{ green: sessionStatus, red: !sessionStatus }"
+                :class="{ green: sessionStatus, orange: !sessionStatus }"
               >
                 <v-icon class="white--text">{{
                   sessionStatus ? "mdi-check-bold" : "mdi-alert"
@@ -68,11 +69,11 @@
               </v-btn>
             </template>
             <span>{{
-              sessionStatus ? "Session Created" : "Session Disconnected"
+              sessionStatus ? "Session Created" : "Session Error"
             }}</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom color="#424242">
             <template v-slot:activator="{ on }">
               <v-btn
                 class="mx-2"
@@ -80,7 +81,7 @@
                 depressed
                 fab
                 small
-                :class="{ green: wsStatus, red: !wsStatus }"
+                :class="{ green: wsStatus, orange: !wsStatus }"
               >
                 <v-icon class="white--text">{{
                   wsStatus ? "mdi-power-plug" : "mdi-power-plug-off"
@@ -88,11 +89,11 @@
               </v-btn>
             </template>
             <span>{{
-              wsStatus ? "WebSocket Connected" : "WebSocket Disconnected"
+              wsStatus ? "WebSocket Connected" : "WebSocket Error"
             }}</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom color="#424242">
             <template v-slot:activator="{ on }">
               <v-btn
                 class="mx-2"
@@ -100,7 +101,7 @@
                 depressed
                 fab
                 small
-                :class="{ green: subStatus, red: !subStatus }"
+                :class="{ green: subStatus, orange: !subStatus }"
               >
                 <v-icon class="white--text">{{
                   subStatus
@@ -109,12 +110,10 @@
                 }}</v-icon>
               </v-btn>
             </template>
-            <span>{{
-              subStatus ? "Subscription Created" : "Subscription Disconnected"
-            }}</span>
+            <span>{{ subStatus ? "Subscribed" : "Subscription Error" }}</span>
           </v-tooltip>
 
-          <v-tooltip bottom>
+          <v-tooltip bottom color="#424242">
             <template v-slot:activator="{ on }">
               <v-btn
                 v-show="displayLog"
