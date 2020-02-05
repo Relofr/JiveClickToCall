@@ -117,6 +117,7 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn
+                v-show="displayLog"
                 :disabled="displayWSlogs.length == 0"
                 class="mx-2"
                 v-on="on"
