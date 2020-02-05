@@ -51,6 +51,27 @@
               displayLog ? "Hide WebSocket logs" : "Show WebSocket Logs"
             }}</span>
           </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                class="mx-2"
+                v-on="on"
+                depressed
+                fab
+                small
+                :class="{ green: sessionStatus, red: !sessionStatus }"
+              >
+                <v-icon class="white--text">{{
+                  sessionStatus ? "mdi-check-bold" : "mdi-alert"
+                }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{
+              sessionStatus ? "Session Created" : "Session Disconnected"
+            }}</span>
+          </v-tooltip>
+
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn
@@ -70,6 +91,29 @@
               wsStatus ? "WebSocket Connected" : "WebSocket Disconnected"
             }}</span>
           </v-tooltip>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                class="mx-2"
+                v-on="on"
+                depressed
+                fab
+                small
+                :class="{ green: subStatus, red: !subStatus }"
+              >
+                <v-icon class="white--text">{{
+                  subStatus
+                    ? "mdi-transit-connection-variant"
+                    : "mdi-electric-switch-closed"
+                }}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{
+              subStatus ? "Subscription Created" : "Subscription Disconnected"
+            }}</span>
+          </v-tooltip>
+
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
               <v-btn
@@ -79,7 +123,7 @@
                 depressed
                 fab
                 small
-                color="error"
+                color="red"
                 @click="clearLog()"
               >
                 <v-icon class="white--text">mdi-trash-can</v-icon>
@@ -109,6 +153,8 @@ export default {
   data() {
     return {
       wsStatus: false,
+      subStatus: false,
+      sessionStatus: false,
       displayWSlogs: [],
       displayLog: true,
       valid: true,
@@ -320,6 +366,22 @@ export default {
         };
       }
     }, 0);
+  },
+  mounted() {
+    if (localStorage.subStatus) {
+      this.subStatus = JSON.parse(localStorage.subStatus);
+    }
+    if (localStorage.sessionStatus) {
+      this.sessionStatus = JSON.parse(localStorage.sessionStatus);
+    }
+  },
+  watch: {
+    subStatus(newSubStatus) {
+      localStorage.subStatus = newSubStatus;
+    },
+    sessionStatus(newSessionStatus) {
+      localStorage.sessionStatus = newSessionStatus;
+    }
   }
 };
 </script>

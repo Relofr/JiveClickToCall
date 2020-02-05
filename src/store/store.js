@@ -115,10 +115,12 @@ const store = new Vuex.Store({
           localStorage.setItem("currentSession", JSON.stringify(response.data));
           localStorage.setItem("WS", response.data.ws);
           localStorage.setItem("SUB", response.data.subscriptions);
+          localStorage.setItem("sessionStatus", true);
           commit("updateSession", session);
           console.log("Session created...", response.data);
         })
         .catch(error => {
+          localStorage.setItem("sessionStatus", false);
           console.log(error);
         });
     },
@@ -139,10 +141,12 @@ const store = new Vuex.Store({
           let sub = response.data;
           localStorage.setItem("currentSub", JSON.stringify(response.data));
           localStorage.setItem("currentSubBody", subBody);
+          localStorage.setItem("subStatus", true);
           commit("updateSubscription", sub);
           console.log("Subscription created...", response.data);
         })
         .catch(error => {
+          localStorage.setItem("subStatus", false);
           console.log(error);
         });
     }

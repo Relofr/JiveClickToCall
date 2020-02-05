@@ -111,7 +111,9 @@ export default {
         "selectedLine",
         "currentSession",
         "currentSub",
-        "currentSubBody"
+        "currentSubBody",
+        "sessionStatus",
+        "subStatus"
       ];
       for (this.key of keysToRemove) {
         localStorage.removeItem(this.key);
