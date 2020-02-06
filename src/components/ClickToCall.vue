@@ -57,6 +57,7 @@
             </div>
 
             <v-card class="mx-auto pa-2" outlined v-show="displayLog">
+              <div class="overline pb-2">Status</div>
               <div class="flex-column mb-2" flat tile>
                 <v-tooltip right color="#424242">
                   <template v-slot:activator="{ on }">
@@ -135,9 +136,11 @@
                       fab
                       small
                       color="indigo"
+                      class="white--text"
+                      :loading="loading"
                       @click="refreshConnections()"
                     >
-                      <v-icon class="white--text">mdi-refresh</v-icon>
+                      <v-icon>mdi-cached</v-icon>
                     </v-btn>
                   </template>
                   <span>Refresh Connections</span>
@@ -186,6 +189,8 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      loader: null,
+      loading: false,
       wsStatus: false,
       subStatus: false,
       sessionStatus: false,
@@ -209,11 +214,14 @@ export default {
       this.displayWSlogs = [];
     },
     refreshConnections() {
+      this.loader = "loading";
       this.$store.dispatch("GET_SESSION");
-      this.$store.dispatch("GET_SUBSCRIPTION");
+      setTimeout(() => {
+        this.$store.dispatch("GET_SUBSCRIPTION");
+      }, 250);
       setTimeout(() => {
         location.reload();
-      }, 100);
+      }, 500);
     },
     makeCall() {
       if (this.$refs.form.validate()) {
@@ -417,6 +425,10 @@ export default {
     }
   },
   watch: {
+    loader() {
+      const l = this.loader;
+      this[l] = !this[l];
+    },
     subStatus(newSubStatus) {
       localStorage.subStatus = newSubStatus;
     },
