@@ -117,7 +117,7 @@ const store = new Vuex.Store({
           localStorage.setItem("SUB", response.data.subscriptions);
           localStorage.setItem("sessionStatus", true);
           commit("updateSession", session);
-          console.log("Session created...", response.data);
+          console.log("Session created...", response);
         })
         .catch(error => {
           localStorage.setItem("sessionStatus", false);

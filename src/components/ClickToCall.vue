@@ -43,7 +43,7 @@
                     fab
                     small
                     @click="displayLog = !displayLog"
-                    color="blue white--text"
+                    :class="{ blue: displayLog, secondary: !displayLog }"
                   >
                     <v-icon class="white--text">{{
                       displayLog ? "mdi-eye-outline" : "mdi-eye-off"
@@ -128,6 +128,26 @@
               <v-tooltip right color="#424242">
                 <template v-slot:activator="{ on }">
                   <v-btn
+                    v-show="!wsStatus || !sessionStatus || !subStatus"
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    color="indigo"
+                    @click="refreshConnections()"
+                  >
+                    <v-icon class="white--text">mdi-refresh</v-icon>
+                  </v-btn>
+                </template>
+                <span>Refresh Connections</span>
+              </v-tooltip>
+            </div>
+
+            <div class="flex-column mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
                     v-show="displayLog"
                     :disabled="displayWSlogs.length == 0"
                     class="mx-2"
@@ -187,6 +207,13 @@ export default {
   methods: {
     clearLog() {
       this.displayWSlogs = [];
+    },
+    refreshConnections() {
+      this.$store.dispatch("GET_SESSION");
+      this.$store.dispatch("GET_SUBSCRIPTION");
+      setTimeout(() => {
+        location.reload();
+      }, 100);
     },
     makeCall() {
       if (this.$refs.form.validate()) {
