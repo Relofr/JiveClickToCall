@@ -33,7 +33,7 @@
         </v-layout>
         <v-layout>
           <div class="mr-4">
-            <div class="flex-column mb-2 " flat tile>
+            <div class="flex-column mb-2" flat tile>
               <v-tooltip right color="#424242">
                 <template v-slot:activator="{ on }">
                   <v-btn
@@ -43,7 +43,7 @@
                     fab
                     small
                     @click="displayLog = !displayLog"
-                    :class="{ blue: displayLog, secondary: !displayLog }"
+                    color="secondary"
                   >
                     <v-icon class="white--text">{{
                       displayLog ? "mdi-eye-outline" : "mdi-eye-off"
@@ -56,12 +56,11 @@
               </v-tooltip>
             </div>
 
-            <v-card class="mx-auto pa-2" flat outlined v-show="displayLog">
-              <div class="flex-column mb-4 " flat tile>
+            <v-card class="mx-auto pa-2" outlined v-show="displayLog">
+              <div class="flex-column mb-2" flat tile>
                 <v-tooltip right color="#424242">
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      class="mx-2"
                       v-on="on"
                       depressed
                       fab
@@ -79,11 +78,10 @@
                 </v-tooltip>
               </div>
 
-              <div class="flex-column mb-4 " flat tile>
+              <div class="flex-column mb-2" flat tile>
                 <v-tooltip right color="#424242">
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      class="mx-2"
                       v-on="on"
                       depressed
                       fab
@@ -101,11 +99,10 @@
                 </v-tooltip>
               </div>
 
-              <div class="flex-column " flat tile>
+              <div class="flex-column" flat tile>
                 <v-tooltip right color="#424242">
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      class="mx-2"
                       v-on="on"
                       depressed
                       fab
@@ -124,34 +121,36 @@
                   }}</span>
                 </v-tooltip>
               </div>
+              <div
+                class="flex-column mt-2"
+                flat
+                tile
+                v-show="!wsStatus || !sessionStatus || !subStatus"
+              >
+                <v-tooltip right color="#424242">
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      v-on="on"
+                      depressed
+                      fab
+                      small
+                      color="indigo"
+                      @click="refreshConnections()"
+                    >
+                      <v-icon class="white--text">mdi-refresh</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Refresh Connections</span>
+                </v-tooltip>
+              </div>
             </v-card>
-            <div class="flex-column mb-2 mt-2 " flat tile>
-              <v-tooltip right color="#424242">
-                <template v-slot:activator="{ on }">
-                  <v-btn
-                    v-show="!wsStatus || !sessionStatus || !subStatus"
-                    class="mx-2"
-                    v-on="on"
-                    depressed
-                    fab
-                    small
-                    color="indigo"
-                    @click="refreshConnections()"
-                  >
-                    <v-icon class="white--text">mdi-refresh</v-icon>
-                  </v-btn>
-                </template>
-                <span>Refresh Connections</span>
-              </v-tooltip>
-            </div>
 
-            <div class="flex-column " flat tile>
+            <div class="flex-column mt-2" flat tile>
               <v-tooltip right color="#424242">
                 <template v-slot:activator="{ on }">
                   <v-btn
                     v-show="displayLog"
                     :disabled="displayWSlogs.length == 0"
-                    class="mx-2"
                     v-on="on"
                     depressed
                     fab

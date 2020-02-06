@@ -19,7 +19,11 @@
         </thead>
         <tbody>
           <tr v-for="(user, index) in users" :key="index">
-            <td><v-icon @click="handleSelectedUser(user)">phone</v-icon></td>
+            <td>
+              <v-icon color="blue" @click="handleSelectedUser(user)"
+                >phone</v-icon
+              >
+            </td>
             <td>{{ user.phoneNumber }}</td>
             <td>{{ user.firstName }} {{ user.lastName }}</td>
             <td>{{ user.email }}</td>
