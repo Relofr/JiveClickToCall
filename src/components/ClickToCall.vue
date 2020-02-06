@@ -32,105 +32,119 @@
           </v-flex>
         </v-layout>
         <v-layout>
-          <v-tooltip bottom color="#424242">
-            <template v-slot:activator="{ on }">
-              <v-btn
-                class="mx-2"
-                v-on="on"
-                depressed
-                fab
-                small
-                @click="displayLog = !displayLog"
-                color="blue white--text"
-              >
-                <v-icon class="white--text">{{
-                  displayLog ? "mdi-eye-outline" : "mdi-eye-off"
-                }}</v-icon>
-              </v-btn>
-            </template>
-            <span>{{
-              displayLog ? "Hide WebSocket logs" : "Show WebSocket Logs"
-            }}</span>
-          </v-tooltip>
+          <div>
+            <div class="flex-column mb-5 mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    @click="displayLog = !displayLog"
+                    color="blue white--text"
+                  >
+                    <v-icon class="white--text">{{
+                      displayLog ? "mdi-eye-outline" : "mdi-eye-off"
+                    }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{
+                  displayLog ? "Hide WebSocket logs" : "Show WebSocket Logs"
+                }}</span>
+              </v-tooltip>
+            </div>
 
-          <v-tooltip bottom color="#424242">
-            <template v-slot:activator="{ on }">
-              <v-btn
-                class="mx-2"
-                v-on="on"
-                depressed
-                fab
-                small
-                :class="{ green: sessionStatus, orange: !sessionStatus }"
-              >
-                <v-icon class="white--text">{{
-                  sessionStatus ? "mdi-check-bold" : "mdi-alert"
-                }}</v-icon>
-              </v-btn>
-            </template>
-            <span>{{
-              sessionStatus ? "Session Created" : "Session Error"
-            }}</span>
-          </v-tooltip>
+            <div class="flex-column mb-5 mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    :class="{ green: sessionStatus, orange: !sessionStatus }"
+                  >
+                    <v-icon class="white--text">{{
+                      sessionStatus ? "mdi-check-bold" : "mdi-alert"
+                    }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{
+                  sessionStatus ? "Session Created" : "Session Error"
+                }}</span>
+              </v-tooltip>
+            </div>
 
-          <v-tooltip bottom color="#424242">
-            <template v-slot:activator="{ on }">
-              <v-btn
-                class="mx-2"
-                v-on="on"
-                depressed
-                fab
-                small
-                :class="{ green: wsStatus, orange: !wsStatus }"
-              >
-                <v-icon class="white--text">{{
-                  wsStatus ? "mdi-power-plug" : "mdi-power-plug-off"
-                }}</v-icon>
-              </v-btn>
-            </template>
-            <span>{{
-              wsStatus ? "WebSocket Connected" : "WebSocket Error"
-            }}</span>
-          </v-tooltip>
+            <div class="flex-column mb-5 mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    :class="{ green: wsStatus, orange: !wsStatus }"
+                  >
+                    <v-icon class="white--text">{{
+                      wsStatus ? "mdi-power-plug" : "mdi-power-plug-off"
+                    }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{
+                  wsStatus ? "WebSocket Connected" : "WebSocket Error"
+                }}</span>
+              </v-tooltip>
+            </div>
 
-          <v-tooltip bottom color="#424242">
-            <template v-slot:activator="{ on }">
-              <v-btn
-                class="mx-2"
-                v-on="on"
-                depressed
-                fab
-                small
-                :class="{ green: subStatus, orange: !subStatus }"
-              >
-                <v-icon class="white--text">{{
-                  subStatus
-                    ? "mdi-transit-connection-variant"
-                    : "mdi-electric-switch-closed"
-                }}</v-icon>
-              </v-btn>
-            </template>
-            <span>{{ subStatus ? "Subscribed" : "Subscription Error" }}</span>
-          </v-tooltip>
+            <div class="flex-column mb-5 mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    :class="{ green: subStatus, orange: !subStatus }"
+                  >
+                    <v-icon class="white--text">{{
+                      subStatus
+                        ? "mdi-transit-connection-variant"
+                        : "mdi-electric-switch-closed"
+                    }}</v-icon>
+                  </v-btn>
+                </template>
+                <span>{{
+                  subStatus ? "Subscribed" : "Subscription Error"
+                }}</span>
+              </v-tooltip>
+            </div>
 
-          <v-tooltip bottom color="#424242">
-            <template v-slot:activator="{ on }">
-              <v-btn
-                v-show="displayLog"
-                :disabled="displayWSlogs.length == 0"
-                class="mx-2"
-                v-on="on"
-                depressed
-                fab
-                small
-                color="red"
-                @click="clearLog()"
-              >
-                <v-icon class="white--text">mdi-trash-can</v-icon>
-              </v-btn>
-            </template>
-            <span>Clear Logs</span>
-          </v-tooltip>
+            <div class="flex-column mb-5 mr-5" flat tile>
+              <v-tooltip right color="#424242">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-show="displayLog"
+                    :disabled="displayWSlogs.length == 0"
+                    class="mx-2"
+                    v-on="on"
+                    depressed
+                    fab
+                    small
+                    color="red"
+                    @click="clearLog()"
+                  >
+                    <v-icon class="white--text">mdi-trash-can</v-icon>
+                  </v-btn>
+                </template>
+                <span>Clear Logs</span>
+              </v-tooltip>
+            </div>
+          </div>
 
           <v-spacer></v-spacer>
           <code class="pa-4 text-left ws-text" v-show="displayLog">{{
