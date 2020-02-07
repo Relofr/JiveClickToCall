@@ -175,11 +175,10 @@
             </div>
           </div>
           <v-spacer></v-spacer>
-          <code class="pa-4 text-left ws-text" v-show="displayLog">
+          <code class="pa-4 text-left ws-text bg-dark" v-show="displayLog">
             <span v-for="(dwsl, i) in displayWSlogs" :key="i">
-              <div class="grey--text">// {{ dwsl.timestamp }}</div>
-              <p>{{ dwsl.data }}</p>
-              <v-divider></v-divider>
+              <kbd class="blue-text black--text">{{ dwsl.timestamp }}</kbd>
+              <p class="white--text">{{ dwsl.data }}</p>
               <v-spacer></v-spacer>
             </span>
           </code>
@@ -501,14 +500,24 @@ export default {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #f5f5f5;
+  background: #282c34;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #616161;
-  border-radius: 8px;
+  background: #bdbdbd;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #616161;
-  border-radius: 8px;
+  background: #bdbdbd;
+  border-radius: 3px;
+}
+.bg-dark {
+  background-color: #282c34;
+}
+.blue-text {
+  background-color: #61afef;
+}
+.v-application code {
+  font-weight: normal;
 }
 </style>
