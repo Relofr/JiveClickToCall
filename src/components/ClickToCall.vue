@@ -42,9 +42,15 @@
                     depressed
                     fab
                     small
-                    @click="displayLog = !displayLog"
+                    @click="showLogs()"
                     color="secondary"
-                  >
+                    ><v-badge
+                      v-show="!displayLog && notifyCount > 0"
+                      offset-x="-20"
+                      offset-y="-8"
+                      color="red"
+                      :content="notifyCount"
+                    ></v-badge>
                     <v-icon class="white--text">{{
                       displayLog ? "mdi-eye-outline" : "mdi-eye-off"
                     }}</v-icon>
@@ -189,6 +195,7 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      notifyCount: 0,
       loader: null,
       loading: false,
       wsStatus: false,
@@ -210,6 +217,10 @@ export default {
     CRM
   },
   methods: {
+    showLogs() {
+      this.displayLog = !this.displayLog;
+      this.notifyCount = 0;
+    },
     clearLog() {
       this.displayWSlogs = [];
     },
@@ -333,9 +344,11 @@ export default {
         this.$socketClient.onMessage = msg => {
           console.log(JSON.parse(msg.data));
           this.displayWSlogs.push(JSON.parse(msg.data));
+          this.notifyCount++;
           var msgToJSON = JSON.parse(msg.data);
           switch (msgToJSON.type) {
             case "announce":
+              this.notifyCount++;
               var getPhoneNumber = msgToJSON.data.display;
 
               var test = msgToJSON.data.display;
@@ -354,6 +367,7 @@ export default {
               break;
 
             case "replace":
+              this.notifyCount++;
               var callState = msgToJSON.data.state;
               var callDirection = msgToJSON.data.direction;
               switch (callDirection) {
@@ -366,6 +380,7 @@ export default {
               }
               switch (callState) {
                 case "early":
+                  this.notifyCount++;
                   store.commit("updateCallState", "Ringing");
                   store.commit("updateCallPopState", true);
                   this.getTimeStamp();
@@ -373,6 +388,7 @@ export default {
                   break;
 
                 case "confirmed":
+                  this.notifyCount++;
                   store.commit("updateCallState", "Connected");
                   break;
 
@@ -407,11 +423,13 @@ export default {
           console.log(msg);
           this.wsStatus = false;
           this.displayWSlogs.push(msg.type);
+          this.notifyCount++;
         };
         this.$socketClient.onError = msg => {
           console.log(msg);
           this.wsStatus = false;
           this.displayWSlogs.push(msg.type);
+          this.notifyCount++;
         };
       }
     }, 0);
