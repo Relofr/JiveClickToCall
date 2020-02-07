@@ -174,11 +174,15 @@
               </v-tooltip>
             </div>
           </div>
-
           <v-spacer></v-spacer>
-          <code class="pa-4 text-left ws-text" v-show="displayLog">{{
-            displayWSlogs
-          }}</code>
+          <code class="pa-4 text-left ws-text" v-show="displayLog">
+            <span v-for="(dwsl, i) in displayWSlogs" :key="i">
+              <div class="grey--text">// {{ dwsl.timestamp }}</div>
+              <p>{{ dwsl.data }}</p>
+              <v-divider></v-divider>
+              <v-spacer></v-spacer>
+            </span>
+          </code>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -209,7 +213,8 @@ export default {
       phoneNumberRules: [
         v => !!v || "Phone Number is required",
         v => /^[0-9]*$/.test(v) || "Phone Number must be valid"
-      ]
+      ],
+      wsTimestamp: []
     };
   },
   components: {
@@ -343,8 +348,14 @@ export default {
         };
         this.$socketClient.onMessage = msg => {
           console.log(JSON.parse(msg.data));
-          this.displayWSlogs.push(JSON.parse(msg.data));
           this.notifyCount++;
+          this.wsTimestamp = new Date().toLocaleString();
+          var wsLogObj = {
+            timestamp: this.wsTimestamp,
+            data: JSON.parse(msg.data)
+          };
+          this.displayWSlogs.push(wsLogObj);
+
           var msgToJSON = JSON.parse(msg.data);
           switch (msgToJSON.type) {
             case "announce":
@@ -422,13 +433,30 @@ export default {
         this.$socketClient.onClose = msg => {
           console.log(msg);
           this.wsStatus = false;
-          this.displayWSlogs.push(msg.type);
+          this.wsTimestamp = new Date().toLocaleString();
+          var wsLogObj = {
+            timestamp: this.wsTimestamp,
+            data: {
+              type: msg.type,
+              code: msg.code,
+              reason: msg.reason
+            }
+          };
+          this.displayWSlogs.push(wsLogObj);
           this.notifyCount++;
         };
         this.$socketClient.onError = msg => {
           console.log(msg);
           this.wsStatus = false;
-          this.displayWSlogs.push(msg.type);
+          this.wsTimestamp = new Date().toLocaleString();
+          var wsLogObj = {
+            timestamp: this.wsTimestamp,
+            data: {
+              type: msg.type,
+              target: msg.currentTarget.url
+            }
+          };
+          this.displayWSlogs.push(wsLogObj);
           this.notifyCount++;
         };
       }
@@ -462,6 +490,11 @@ export default {
   overflow-y: scroll;
   max-height: 500px;
   width: 100%;
+}
+.ws-timestamp {
+  overflow-y: scroll;
+  max-height: 500px;
+  width: 230px;
 }
 ::-webkit-scrollbar {
   width: 10px;
