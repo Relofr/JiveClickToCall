@@ -31,10 +31,30 @@
             <CRM />
           </v-flex>
         </v-layout>
+        <div class="mb-4">
+          <div class="text-left">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn color="blue" dark v-on="on">
+                  Entity Type: {{ selectedLineType }}
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(type, index) in types"
+                  :key="index"
+                  @click="changeLineType(type.value)"
+                >
+                  <v-list-item-title>{{ type.value }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
+        </div>
         <v-layout>
           <div class="mr-4">
             <div class="flex-column mb-2" flat tile>
-              <v-tooltip right color="#424242">
+              <v-tooltip right color="black">
                 <template v-slot:activator="{ on }">
                   <v-btn
                     class="mx-2"
@@ -61,11 +81,10 @@
                 }}</span>
               </v-tooltip>
             </div>
-
             <v-card class="mx-auto pa-2" outlined v-show="displayLog">
               <div class="overline pb-2">Status</div>
               <div class="flex-column mb-2" flat tile>
-                <v-tooltip right color="#424242">
+                <v-tooltip right color="black">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -86,7 +105,7 @@
               </div>
 
               <div class="flex-column mb-2" flat tile>
-                <v-tooltip right color="#424242">
+                <v-tooltip right color="black">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -107,7 +126,7 @@
               </div>
 
               <div class="flex-column" flat tile>
-                <v-tooltip right color="#424242">
+                <v-tooltip right color="black">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -134,7 +153,7 @@
                 tile
                 v-show="!wsStatus || !sessionStatus || !subStatus"
               >
-                <v-tooltip right color="#424242">
+                <v-tooltip right color="black">
                   <template v-slot:activator="{ on }">
                     <v-btn
                       v-on="on"
@@ -155,7 +174,7 @@
             </v-card>
 
             <div class="flex-column mt-2" flat tile>
-              <v-tooltip right color="#424242">
+              <v-tooltip right color="black">
                 <template v-slot:activator="{ on }">
                   <v-btn
                     v-show="displayLog"
@@ -175,7 +194,12 @@
             </div>
           </div>
           <v-spacer></v-spacer>
-          <code class="pa-4 text-left ws-text bg-dark" v-show="displayLog">
+
+          <code
+            id="wslog"
+            class="pa-4 text-left ws-text bg-dark"
+            v-show="displayLog"
+          >
             <span v-for="(dwsl, i) in displayWSlogs" :key="i">
               <kbd class="blue-text black--text">{{ dwsl.timestamp }}</kbd>
               <p class="white--text">{{ dwsl.data }}</p>
@@ -198,6 +222,15 @@ export default {
   mixins: [webSockMixin],
   data() {
     return {
+      types: [
+        {
+          value: "line"
+        },
+        {
+          value: "line.v2"
+        }
+      ],
+      selectedLineType: localStorage.lineType,
       notifyCount: 0,
       loader: null,
       loading: false,
@@ -221,6 +254,16 @@ export default {
     CRM
   },
   methods: {
+    changeLineType(selectedType) {
+      localStorage.setItem("lineType", selectedType);
+      this.$store.dispatch("GET_SESSION");
+      setTimeout(() => {
+        this.$store.dispatch("GET_SUBSCRIPTION");
+      }, 250);
+      setTimeout(() => {
+        location.reload();
+      }, 500);
+    },
     showLogs() {
       this.displayLog = !this.displayLog;
       this.notifyCount = 0;

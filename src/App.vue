@@ -42,7 +42,9 @@
           https://api.jive.com/users/v1/lines</v-expansion-panel-header
         >
         <v-expansion-panel-content class="mt-5">
-          <code class="pa-4">{{ this.$store.state.lines }}</code>
+          <code class="pa-4 code white--text">{{
+            this.$store.state.lines
+          }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -52,7 +54,7 @@
           Authorization: Bearer {ACCESS_TOKEN}</v-expansion-panel-header
         >
         <v-expansion-panel-content class="mt-5">
-          <code class="pa-4">{{ currentSession }}</code>
+          <code class="pa-4 white--text code">{{ currentSession }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -64,10 +66,11 @@
         >
         <v-expansion-panel-content class="font-weight-medium mt-5">
           -H 'Content-Type: application/json' <br />
-          <code class="pa-4">{{ currentSubBody }}</code> <br />
+          <code class="pa-4 code white--text">{{ currentSubBody }}</code>
+          <br />
           <br />
           RESPONSE: <br />
-          <code class="pa-4">{{ currentSub }}</code>
+          <code class="pa-4 code white--text">{{ currentSub }}</code>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -113,7 +116,8 @@ export default {
         "currentSub",
         "currentSubBody",
         "sessionStatus",
-        "subStatus"
+        "subStatus",
+        "lineType"
       ];
       for (this.key of keysToRemove) {
         localStorage.removeItem(this.key);
@@ -146,6 +150,9 @@ export default {
       this.currentSub = JSON.parse(localStorage.currentSub);
       this.currentSubBody = JSON.parse(localStorage.currentSubBody);
     }
+    if (!localStorage.lineType) {
+      localStorage.setItem("lineType", "line");
+    }
   },
   beforeMount() {
     if (localStorage.token) {
@@ -158,5 +165,10 @@ export default {
 <style lang="less" scoped>
 button {
   margin-left: 15px;
+}
+
+.code {
+  background-color: #282c34;
+  font-weight: normal;
 }
 </style>

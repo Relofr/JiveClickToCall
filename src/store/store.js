@@ -131,7 +131,7 @@ const store = new Vuex.Store({
           type: "dialog",
           entity: {
             id: localStorage.lineID,
-            type: "line",
+            type: localStorage.lineType,
             account: localStorage.orgID
           }
         }
